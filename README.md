@@ -55,6 +55,11 @@ Then visit the enrollment portal and click the link.
 
 Note: The Arch package uses a pre-extracted tarball for easier distribution.
 
+### For ARM (Asahi/Apple Silicon) and other non-x86 systems
+
+HPE's client is x86-64 only. [uvg-campus-wifi](https://github.com/bcastillo-2022474/uvg-campus-wifi)
+is a native replacement (Python + openssl) that works on any architecture and distro.
+
 ### For Other Distros
 
 Use gemini-cli or claude-code or open-code or codex and have them read the AGENTS.md file, they should manage to fix the connection. Maybe.
