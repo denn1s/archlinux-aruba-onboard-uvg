@@ -60,6 +60,17 @@ SSID=$(basename "$CA_CERT" | sed 's/-ca\.pem$//')
 SCOPE_ID=$(openssl x509 -in "$USER_CERT" -noout -subject 2>/dev/null | grep -oP 'O\s*=\s*\K[^,]+' | head -1)
 ANON_IDENTITY="anonymous@${SCOPE_ID}.cloudauth.net"
 
+# nmcli splits "802-1x.private-key <file> <password>" on whitespace, so a path like
+# "UVG CAMPUS CENTRAL-key.p12" fails with "too many arguments". Give it space-free symlinks.
+NM_DIR="$ARUBA_DIR/nm"
+mkdir -p "$NM_DIR"
+ln -sf "$CA_CERT" "$NM_DIR/ca.pem"
+ln -sf "$USER_CERT" "$NM_DIR/user.pem"
+ln -sf "$PKCS12" "$NM_DIR/key.p12"
+CA_CERT="$NM_DIR/ca.pem"
+USER_CERT="$NM_DIR/user.pem"
+PKCS12="$NM_DIR/key.p12"
+
 echo "Enrollment helper: configuring NetworkManager with password..."
 
 # Auto-detect WiFi interface (supports various naming schemes: wlan0, wlp5s0, etc.)
